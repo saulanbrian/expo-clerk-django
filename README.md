@@ -1,4 +1,4 @@
-This is a startapp application for Expo + Django applications, you need to have basic knowledge for both Expo and Django as I'm only going to highlight the most important thing.
+This is a startapp application for Expo + Clerk + Django applications, you need to have basic knowledge for both Clerk and Django as I'm only going to highlight the most important thing.
 
 This uses Clerk for authentication and user management, syncing user data through webhooks. 
 
