@@ -1,10 +1,38 @@
 asgiref==3.8.1
+attrs==25.3.0
+autobahn==24.4.2
+Automat==25.4.16
 cffi==1.17.1
-cryptography==44.0.2
+channels==4.2.2
+channels_redis==4.2.1
+constantly==23.10.4
+cryptography @ file:///home/builder/.termux-build/python-cryptography/src
+daphne==4.2.1
 Django==5.1.7
 djangorestframework==3.15.2
+greenlet==3.1.1
+grpcio @ file:///home/builder/.termux-build/python-grpcio/src
+hyperlink==21.0.0
+idna==3.10
+incremental==24.7.2
+msgpack==1.1.0
+nodeenv==1.9.1
+numpy @ file:///home/builder/.termux-build/python-numpy/src/dist/numpy-2.2.5-cp312-cp312-linux_aarch64.whl#sha256=3e07e01553f84586072e530c91db94e54882af68f7792181856cc69bbe8381ee
+pyasn1==0.6.1
+pyasn1_modules==0.4.2
 pycparser==2.22
 PyJWT==2.10.1
+pynvim==0.5.2
+pyOpenSSL==25.1.0
+pyright==1.1.397
 python-decouple==3.8
+redis==6.2.0
+service-identity==24.2.0
+setuptools==80.9.0
 sqlparse==0.5.3
+Twisted==25.5.0
+txaio==25.6.1
+typing_extensions==4.12.2
 tzdata==2025.1
+wheel==0.45.1
+zope.interface==7.2

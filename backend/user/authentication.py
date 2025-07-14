@@ -1,9 +1,11 @@
-# your_app/authentication.py
 import jwt
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import authentication
 from rest_framework.exceptions import AuthenticationFailed
+from channels.db import database_sync_to_async
+from channels.middleware import BaseMiddleware
+from urllib.parse import parse_qs
 
 from . models import ClerkUser as User
 
@@ -39,12 +41,35 @@ class ClerkJWTAuthentication(authentication.BaseAuthentication):
             logger.warning("No 'sub' claim in JWT payload")
             return None
 
-        try:
-            user = User.objects.get(clerk_id=user_id)
-            logger.info("Authenticated user: %s", user)
-        except User.DoesNotExist:
-            logger.error("User not found for clerk_id: %s", user_id)
-            raise AuthenticationFailed('User not found')
+        user, created = User.objects.get_or_create(clerk_id=user_id)
+        logger.info("Authenticated user: %s", user)
 
         return (user, None)
-        
+
+         
+class ClerkJWTAuthenticationMiddleware(BaseMiddleware):
+    async def __call__(self, scope, receive, send):
+        token = parse_qs(scope["query_string"].decode()).get("token", [None])[0]
+        user = None
+
+        if token:
+            try:
+                payload = jwt.decode(
+                    token,
+                    settings.CLERK_JWT_PUBLIC_KEY,
+                    algorithms=["RS256"],
+                    issuer=settings.CLERK_ISSUER,
+                )
+                user_id = payload.get("sub")
+                if user_id:
+                    user = await self.get_user(user_id)
+            except Exception as e:
+                logger.error(f"JWT authentication error: {e}")
+
+        scope["user"] = user
+        return await super().__call__(scope, receive, send)
+
+    @database_sync_to_async
+    def get_user(self, clerk_id):
+        user, _ = User.objects.get_or_create(clerk_id=clerk_id)
+        return user

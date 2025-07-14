@@ -1,2 +1,18 @@
-env/ 
+# === Python caches & bytecode ===
+__pycache__/
+*.py[cod]
+# Pytest cache
+.pytest_cache/
+# pip env folders
+env/
+venv/
+.venv/
 .env
+
+db.sqlite3
+
+# === OS/editor folders ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
